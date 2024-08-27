@@ -1,0 +1,60 @@
+instructions:
+number is the opcode
+fields with no instruction intentionally left blank
+
+0  mov 	R0, R1/imm8 	# R0 <-- R1/imm8
+1  ldw 	R0, R1/imm8 	# R0 <-- M[R1/imm8]
+2  stw 	R0, R1/imm8 	# M[R1/imm8] <-- R0
+3  rdw  R0, R1/imm8 	# R0 <-- P[R1/imm8]
+4  wrw  R0, R1/imm8 	# P[R1/imm8] <-- R0
+5  jmp 	    R1/imm8 	# IP <-- R1/imm8
+6  jnz 	R0, R1/imm8 	# if(R0 != 0) IP <-- R1/imm8
+7  jz  	R0, R1/imm8 	# if(R0 == 0) IP <-- R1/imm8
+8  add 	R0, R1/imm8 	# R0 <-- R0 + R1/imm8
+9  sub 	R0, R1/imm8 	# R0 <-- R0 + R1/imm8
+A  not 	R0, R1/imm8 	# R0 <-- ~R1/~imm8
+B  and 	R0, R1/imm8  	# R0 <-- R0 & R1/imm8
+C  or  	R0, R1/imm8  	# R0 <-- R0 | R1/imm8
+D  xor 	R0, R1/imm8  	# R0 <-- R0 ^ R1/imm8
+E  sll 	R0, R1/imm4  	# R0 <-- R0 << R1/imm4
+F  slr 	R0, R1/imm4  	# R0 <-- R0 << R1/imm4
+
+it is big endian
+
+M[] means read from memory address
+P[] means read from port number
+
+each instrucion is 16bits
+each instruction is specified in this format
+	AAAABBBC XXXXXXXX
+
+	AAAA - opcode
+	BBB  - R0 id
+	C    - if 1 then second operand is immiediate, otherwise its register
+	X3   - R1
+	X4   - imm4
+	X8   - imm8
+
+	Xn meaning last n bits of X
+
+	if some part is unused then bits should be set to 0
+
+8 16bits registers
+	R0 GP register 0 
+	R1 GP register 1 
+	R2 GP register 2 
+	R3 GP register 3 
+	R4 GP register 4 
+	R5 GP register 5 
+	R6 GP register 6
+	R7 GP register 7
+
+auxilary registers
+	IP instruction pointer
+	controlled with jmp, jz and jnz
+
+smallest addresable unit is 16bit word
+memory layout, inclusive ranges
+0x0000 - 0x0FFF # instructions
+0x1000 - 0x???? # general purpose 
+not decided yet
